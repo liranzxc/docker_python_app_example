@@ -1,17 +1,25 @@
 from flask import Flask, escape, request
+import os
 
 app = Flask(__name__)
 
-@app.route('/add')
-def plus_method():
-    a = request.args.get("a", 1)
-    b = request.args.get("b", 1)
-    result = float(a) + float(b)
-    return "results : {}".format(result)
+
+@app.route('/add/<int:A>/<int:B>')
+def plus_method(A, B):
+    result = A + B
+    return '{ "A" : ' + str(A) + ', "B" : ' + str(B) + ', "result" : ' + str(result) + '}'
+
 
 @app.route('/')
 def hello():
     return "Welcome to python docker app example"
 
+
+@app.route('/env')
+def printEnvVar():
+    printvar = os.environ['MYVAR']
+    return '{"env_var" : ' + printvar + '}'
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=3000)
