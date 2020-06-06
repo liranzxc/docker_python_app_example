@@ -1,9 +1,14 @@
 FROM python:3
 
-ADD . /
+WORKDIR /tmp
 
-RUN pip install -r requirements.txt
+ADD . /tmp
+
+RUN pip install -r /tmp/requirements.txt
+
+ENV PORT 3000
+EXPOSE $PORT
 
 ENV MYVAR 7
 
-CMD [ "python", "./app.py" ]
+CMD [ "python", "/tmp/app.py" ]
